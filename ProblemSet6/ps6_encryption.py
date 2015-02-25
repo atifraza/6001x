@@ -100,7 +100,16 @@ def buildCoder(shift):
     returns: dict
     """
     ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    lowerAlpha = string.ascii_lowercase
+    upperAlpha = string.ascii_uppercase
+    dict1={}
+    dict2={}
+    for ind in range(len(lowerAlpha)):
+        dict1[lowerAlpha[ind]]=lowerAlpha[(ind+shift)%len(lowerAlpha)]
+        dict2[upperAlpha[ind]]=upperAlpha[(ind+shift)%len(upperAlpha)]
+    dict1.update(dict2)
+    return dict1
+    #return "Not yet implemented." # Remove this comment when you code the function
 
 def applyCoder(text, coder):
     """
@@ -111,7 +120,11 @@ def applyCoder(text, coder):
     returns: text after mapping coder chars to original text
     """
     ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    temp = ''
+    for ind in range(len(text)):
+        temp += coder.get(text[ind], text[ind])
+    return temp
+    #return "Not yet implemented." # Remove this comment when you code the function
 
 def applyShift(text, shift):
     """
@@ -126,7 +139,8 @@ def applyShift(text, shift):
     """
     ### TODO.
     ### HINT: This is a wrapper function.
-    return "Not yet implemented." # Remove this comment when you code the function
+    return applyCoder(text, buildCoder(shift))
+    #return "Not yet implemented." # Remove this comment when you code the function
 
 #
 # Problem 2: Decryption
