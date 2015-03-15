@@ -74,7 +74,7 @@ def randomScrambled(wordList, n):
     """
     s = randomString(wordList, n) + " "
     shifts = [(i, random.randint(0, 25)) for i in range(len(s)) if s[i-1] == ' ']
-    return applyShifts(s, shifts)[:-1]
+    return applyShift(s, shifts)[:-1]
 
 def getStoryString():
     """
@@ -153,7 +153,22 @@ def findBestShift(wordList, text):
     returns: 0 <= int < 26
     """
     ### TODO
-    return "Not yet implemented." # Remove this comment when you code the function
+    bestScore = 0
+    bestKey = 0
+    words = text.split(' ')
+    for candidateKey in range(len(string.ascii_lowercase)):
+        currScore = 0
+        for word in words:
+            decryptedWord = applyShift(word, candidateKey)
+            if isWord(wordList, decryptedWord):
+                currScore += 1
+        if currScore == len(words):
+            return candidateKey    # all words were decrypted correctly
+        if currScore > bestScore:
+            bestScore = currScore
+            bestKey = candidateKey
+    return bestKey
+    #return "Not yet implemented." # Remove this comment when you code the function
 
 def decryptStory():
     """
@@ -165,7 +180,11 @@ def decryptStory():
     returns: string - story in plain text
     """
     ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    wordList = loadWords()
+    story = getStoryString()
+    key = findBestShift(wordList, story)
+    return applyShift(story, key)
+    #return "Not yet implemented." # Remove this comment when you code the function
 
 #
 # Build data structures used for entire session and run encryption
@@ -173,9 +192,10 @@ def decryptStory():
 
 if __name__ == '__main__':
     # To test findBestShift:
-    wordList = loadWords()
-    s = applyShift('Hello, world!', 8)
-    bestShift = findBestShift(wordList, s)
-    assert applyShift(s, bestShift) == 'Hello, world!'
+    #wordList = loadWords()
+    #s = applyShift('Hello, world!', 8)
+    #bestShift = findBestShift(wordList, s)
+    #assert applyShift(s, bestShift) == 'Hello, world!'
     # To test decryptStory, comment the above four lines and uncomment this line:
     #    decryptStory()
+    print decryptStory()
